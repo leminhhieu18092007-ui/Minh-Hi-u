@@ -1,4 +1,9 @@
-Tên đề tài: OnboardAI - Hành trình hội nhập nhân sự mới
+# BÀI KIỂM TRA GIỮA KỲ – HỌC PHẦN CSE122
+- Học phần: Phát triển ứng dụng Web cơ bản (CSE122)
+- Họ và tên: Lê Minh Hiếu
+- Mã số sinh viên: 2551060613
+- Lớp: 67CNTT2
+- Tên đề tài: OnboardAI - Hành trình hội nhập nhân sự mới
 - Tên trang đã thực hiện: Danh Sách Mentee & Cảnh Báo Rủi Ro
 - Mục đích của trang: 
 + Giám sát tập trung: Cung cấp cho Mentor một không gian làm việc số (Workspace) để theo dõi danh sách tất cả các nhân sự mới (Mentee) được phân công phụ trách trên các phòng ban.
