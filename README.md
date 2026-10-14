@@ -18,6 +18,6 @@ Tên đề tài: OnboardAI - Hành trình hội nhập nhân sự mới
 + CSS3
 + JavaScript
 + Cơ chế lưu trữ phía Client
-- Link figma:
+- Link figma: https://www.figma.com/design/SKtnXWTtV4ev2SptRp25mL/BTGK?node-id=0-1&t=fbJaH9bcL4GQZPUd-1
 - Link video:
 - Link gihub: https://github.com/leminhhieu18092007-ui/Minh-Hi-u
