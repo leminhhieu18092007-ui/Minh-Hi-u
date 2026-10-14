@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Mentee & Cảnh Báo Rủi Ro | OnboardAI</title>
+  
+  <!-- Font chữ Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Nhúng file CSS riêng biệt -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="app-sidebar" id="app-sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+      </div>
+      <span>Onboard<span style="color:#06b6d4;">AI</span></span>
+      <span class="role-badge">MENTOR</span>
+    </div>
+
+    <!-- Thông tin Mentor đang phụ trách -->
+    <div class="mentor-card">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" alt="Mentor Avatar" />
+      <div>
+        <div class="mentor-name">Lê Hoàng Long</div>
+        <div class="mentor-role">Lead Software Architect</div>
+        <span class="badge badge-success">Cố vấn trưởng IT</span>
+      </div>
+    </div>
+
+    <!-- Menu chức năng (Đã bỏ mục index.html) -->
+    <nav class="sidebar-nav">
+      <div class="nav-label">CHỨC NĂNG CHÍNH</div>
+      <a href="#" class="nav-link active">
+        <span>👥</span> Danh sách Mentee & Rủi ro
+      </a>
+
+      <div class="nav-label" style="margin-top:1.25rem;">QUẢN TRỊ DỮ LIỆU</div>
+      <button class="nav-btn" onclick="resetDefaultData()">
+        <span>🔄</span> Khôi phục dữ liệu mẫu
+      </button>
+      <button class="nav-btn" onclick="exportDataJSON()">
+        <span>📥</span> Xuất file dữ liệu JSON
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div>Học phần: CSE122 – BTL-20</div>
+      <div>Phần mềm Quản lý Mentee</div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <div class="app-main">
+    <!-- Header Topbar (Đã bỏ nút và đường dẫn index.html) -->
+    <header class="app-topbar">
+      <div>
+        <h1 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">
+          Danh Sách Mentee & Cảnh Báo Rủi Ro
+        </h1>
+        <div style="font-size: 0.785rem; color: var(--text-muted);">
+          Theo dõi tiến độ thử việc và phát hiện sớm nguy cơ chậm hạn
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <span class="badge badge-success">● LocalStorage Sẵn Sàng</span>
+      </div>
+    </header>
+
+    <main class="content-body">
+      <!-- 4 THẺ THỐNG KÊ NHANH -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon indigo">👥</div>
+          <div>
+            <div class="stat-value" id="stat-total">4</div>
+            <div class="stat-label">Tổng Mentee phụ trách</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon emerald">✓</div>
+          <div>
+            <div class="stat-value" id="stat-normal">2</div>
+            <div class="stat-label">Đúng hạn / Đạt tiến độ</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon rose">⚠️</div>
+          <div>
+            <div class="stat-value" id="stat-risk">2</div>
+            <div class="stat-label">Cảnh báo cần can thiệp</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon cyan">📊</div>
+          <div>
+            <div class="stat-value" id="stat-avg-progress">60%</div>
+            <div class="stat-label">Tiến độ trung bình</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BANNER CẢNH BÁO RỦI RO TỰ ĐỘNG -->
+      <div id="risk-alert-banner" class="risk-banner">
+        <div class="risk-banner-content">
+          <span class="risk-banner-icon">🚨</span>
+          <div style="flex:1;">
+            <h4 class="risk-banner-title">Phát hiện Mentee có nguy cơ không đạt yêu cầu thử việc:</h4>
+            <p class="risk-banner-desc" id="risk-alert-desc">
+              Nguyễn Văn An (Backend Intern): 23 ngày chỉ đạt 33% tiến độ, 14 ngày chưa có buổi gặp 1-on-1.
+            </p>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="showInterventionPlan()">
+            Xem đề xuất can thiệp
+          </button>
+        </div>
+      </div>
+
+      <!-- BẢNG DANH SÁCH MENTEE -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span>📋</span> Danh Sách Nhân Sự Mới & Theo Dõi Tiến Độ
+          </h2>
+          <button class="btn btn-primary btn-sm" onclick="openAddMenteeModal()">
+            <span>+</span> Tiếp nhận Mentee Mới
+          </button>
+        </div>
+
+        <!-- BỘ LỌC VÀ TÌM KIẾM -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <select class="form-control" id="filter-risk" onchange="renderMentees()">
+              <option value="all">Tất cả mức độ rủi ro</option>
+              <option value="normal">Bình thường (Đúng hạn)</option>
+              <option value="warning">Lưu ý (Chậm 1-2 ngày)</option>
+              <option value="critical">Báo động (Nguy cơ cao)</option>
+            </select>
+
+            <select class="form-control" id="filter-dept" onchange="renderMentees()">
+              <option value="all">Tất cả phòng ban</option>
+              <option value="Công nghệ thông tin (IT)">Công nghệ thông tin (IT)</option>
+              <option value="Tiếp thị & Truyền thông">Tiếp thị & Truyền thông</option>
+              <option value="Kinh doanh & Bán hàng">Kinh doanh & Bán hàng</option>
+            </select>
+          </div>
+
+          <div class="search-box">
+            <input type="text" class="form-control" placeholder="Tìm theo tên, email, vị trí..." id="search-input" onkeyup="renderMentees()" />
+          </div>
+        </div>
+
+        <!-- BẢNG DỮ LIỆU -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nhân sự mới (Mentee)</th>
+                <th>Vị trí & Phòng ban</th>
+                <th>Tiến độ Checklist</th>
+                <th>Ngày vào làm</th>
+                <th>Check-in gần nhất</th>
+                <th>Đánh giá rủi ro</th>
+                <th style="text-align:right;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="mentees-tbody">
+              <!-- Render tự động từ JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= MODAL XEM HỒ SƠ CHI TIẾT ================= -->
+  <div class="modal-overlay" id="mentee-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-mentee-title">Hồ Sơ Chi Tiết Mentee</h3>
+        <button class="modal-close-btn" onclick="closeModal('mentee-modal')">✕</button>
+      </div>
+      <div class="modal-body" id="modal-mentee-content">
+        <!-- Render chi tiết hồ sơ -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('mentee-modal')">Đóng</button>
+        <button class="btn btn-primary" onclick="alertScheduleCheckin()">Lên lịch gặp 1-on-1</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL THÊM MENTEE MỚI ================= -->
+  <div class="modal-overlay" id="add-mentee-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Tiếp Nhận Nhân Sự Mới (Mentee)</h3>
+        <button class="modal-close-btn" onclick="closeModal('add-mentee-modal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="add-mentee-form" onsubmit="handleAddMentee(event)">
+          <div class="form-group">
+            <label class="form-label">Họ và tên Mentee</label>
+            <input type="text" class="form-control" id="m-name" placeholder="Ví dụ: Lê Bảo Ngọc" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email công việc</label>
+            <input type="email" class="form-control" id="m-email" placeholder="baongoc@techcorp.vn" required />
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Vị trí chuyên môn</label>
+              <input type="text" class="form-control" id="m-role" placeholder="Ví dụ: QA Automation" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phòng ban</label>
+              <select class="form-control" id="m-dept">
+                <option value="Công nghệ thông tin (IT)">Công nghệ thông tin (IT)</option>
+                <option value="Tiếp thị & Truyền thông">Tiếp thị & Truyền thông</option>
+                <option value="Kinh doanh & Bán hàng">Kinh doanh & Bán hàng</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Ngày bắt đầu</label>
+              <input type="date" class="form-control" id="m-date" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tiến độ ban đầu (%)</label>
+              <input type="number" class="form-control" id="m-progress" min="0" max="100" value="10" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ghi chú tình trạng ban đầu</label>
+            <textarea class="form-control" id="m-reason" rows="2" placeholder="Tình trạng nhận bàn giao tài khoản và thiết bị..."></textarea>
+          </div>
+          <div class="modal-footer" style="padding:1rem 0 0 0; background:transparent;">
+            <button type="button" class="btn btn-outline" onclick="closeModal('add-mentee-modal')">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu Mentee</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-box" id="toast-box">
+    <span id="toast-icon">✓</span>
+    <span id="toast-text">Thông báo</span>
+  </div>
+
+  <!-- Nhúng file JavaScript riêng biệt -->
+  <script src="script.js"></script>
+</body>
+</html>
