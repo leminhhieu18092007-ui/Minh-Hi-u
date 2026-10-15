@@ -24,5 +24,5 @@
 + JavaScript
 + Cơ chế lưu trữ phía Client
 - Link figma: https://www.figma.com/proto/SKtnXWTtV4ev2SptRp25mL/BTGK?node-id=3-6720&t=BDW4pgAPoM40HAak-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1
-- Link video:
+- Link video: https://www.youtube.com/playlist?list=PLCPRWGsMHT18
 - Link gihub: https://github.com/leminhhieu18092007-ui/Minh-Hi-u
